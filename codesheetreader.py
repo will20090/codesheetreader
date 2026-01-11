@@ -165,7 +165,12 @@ def monoalph_creator(s, value, type, hint_type, hint, alph="", keyword="", shift
     if not extract:
         v = "\\normalsize \\question[" + str(value) + "] Solve this \\textbf{" + alph + type + "}"
     else:
-        v = "\\normalsize \\question[" + str(value) + "] The following quote was encoded as a \\textbf{" + type + "} with a " + alph + " alphabet. "
+        if type == "Xenocrypt":
+            v = "\\normalsize \\question[" + str(value) + "] The following quote was encoded as a \\textbf{" + type + "} with a " + alph + " alphabet"
+        elif type == "Patristocrat":
+            v = "\\normalsize \\question[" + str(value) + "] The following quote was encoded as a \\textbf{" + type + "} with a " + alph + " alphabet"
+        else: 
+            v = "\\normalsize \\question[" + str(value) + "] The following quote was encoded as an \\textbf{" + type + "} with a " + alph + " alphabet"
     if hint_type == "None":
         v += ".\n"
     elif hint_type == "Word" or hint_type == "Letters":
@@ -174,11 +179,11 @@ def monoalph_creator(s, value, type, hint_type, hint, alph="", keyword="", shift
         hint = hint.split(",")
         v+= " about " + hint[1] + ". You are told that " + hint[0] + ".\n"
     elif hint_type == "Subject":
-        v+= f" about {hint}."
+        v+= f" about {hint}. "
     else:
         v+=". "
     if extract:
-        v+=f"You are told that the keyword used is {len(keyword)} letters long. What is the keyword? "
+        v+=f". You are told that the keyword used is {len(keyword)} letters long. What is the keyword? "
         v+="$\\boxed{\\text{Box}}$ your final answer."
     v += "\n\\Large{\n"
     v += "\\begin{verbatim}\n"
@@ -1567,4 +1572,5 @@ def sheet_writer(df, output_file, key_file):
 
 if __name__ == "__main__":
     df, output_file, key_file = main()
+
     sheet_writer(df, output_file, key_file)
